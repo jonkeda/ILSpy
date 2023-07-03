@@ -1,13 +1,9 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 using ICSharpCode.Decompiler;
 using ICSharpCode.Decompiler.TypeSystem;
 using ICSharpCode.ILSpy.MiBlazor.CodeFiles;
 using ICSharpCode.ILSpy.MiBlazor.Writers;
-using ICSharpCode.ILSpy.TreeNodes;
-
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ICSharpCode.ILSpy.MiBlazor.Generator;
 
@@ -26,11 +22,6 @@ public class GeneratorContext
 	public CodeFileCollection Files { get; } = new();
 
 	public string ProjectPath { get; set; } = @"C:\Github\MiBlazor\MiBlazor\MiBlazorExample\";
-
-	public string CreatePath(TypeTreeNode typeTreeNode)
-	{
-		return $@"{ProjectPath}{typeTreeNode.TypeDefinition.FullName.Replace('.', Path.DirectorySeparatorChar)}.cs";
-	}
 
 	public string CreatePath(ITypeDefinition typeDefinition, string extension)
 	{

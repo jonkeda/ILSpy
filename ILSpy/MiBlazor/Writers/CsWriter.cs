@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 using ICSharpCode.Decompiler.TypeSystem;
 
@@ -39,14 +41,20 @@ namespace ICSharpCode.ILSpy.MiBlazor.Writers
 			Spaces = spaces;
 		}
 
-		public void AddImport(string importText)
+		public void AddUsing(string importText)
 		{
 			Usings.Add(importText);
 		}
 
 		public string GetType(IType iType)
 		{
-			return iType.FullName;
+			if (Types.TryGetValue(iType.FullName, out CommonType value))
+			{
+				AddUsing(value.Namespace);
+				return value.Name;
+			}
+			AddUsing(iType.Namespace);
+			return iType.Name;
 		}
 
 		public string ToAccessibility(Decompiler.TypeSystem.Accessibility accessibility)
@@ -81,5 +89,26 @@ namespace ICSharpCode.ILSpy.MiBlazor.Writers
 
 			return null;
 		}
+
+
+		public record CommonType(string Namespace, string Name);
+
+		private static readonly Dictionary<string, CommonType> Types = new();
+
+		static CsWriter()
+		{
+			Add(typeof(string), "string");
+			Add(typeof(bool), "bool");
+			Add(typeof(int), "int");
+			Add(typeof(long), "long");
+			Add(typeof(float), "float");
+			Add(typeof(double), "double");
+		}
+
+		private static void Add(Type type, string name)
+		{
+			Types.Add(type.FullName, new CommonType(type.Namespace, name));
+		}
+
 	}
 }

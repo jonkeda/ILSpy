@@ -16,11 +16,7 @@ namespace ICSharpCode.ILSpy.MiBlazor.Writers
 
 		public void Add(string aUsing)
 		{
-			if (usings.ContainsKey(aUsing))
-			{
-				return;
-			}
-			usings.Add(aUsing, aUsing);
+			usings.TryAdd(aUsing, aUsing);
 		}
 
 		public string ToString(string aPackage)

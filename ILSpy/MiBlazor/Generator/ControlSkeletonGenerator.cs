@@ -5,7 +5,7 @@ using ICSharpCode.ILSpy.MiBlazor.Writers;
 
 namespace ICSharpCode.ILSpy.MiBlazor.Generator
 {
-	public class ControlGenerator : GeneratorBase
+	public class ControlSkeletonGenerator : GeneratorBase
 	{
 		public override bool CanGenerate(ITypeDefinition typeDefinition)
 		{
@@ -23,7 +23,7 @@ namespace ICSharpCode.ILSpy.MiBlazor.Generator
 
 		private void GenerateRazor(ITypeDefinition typeDefinition, GeneratorContext ctx)
 		{
-			RazorWriter output = new ();
+			RazorWriter output = new();
 
 			CodeFile codeFile = new(
 				ctx.CreatePath(typeDefinition, ".razor"),
@@ -40,10 +40,10 @@ namespace ICSharpCode.ILSpy.MiBlazor.Generator
 			output.WriteLine($"public partial class {typeDefinition.Name}");
 			output.Open();
 
-			foreach (var field in typeDefinition.Fields)
+/*			foreach (var field in typeDefinition.Fields)
 			{
 				GenerateCodeField(field, ctx, output);
-			}
+			}*/
 
 			foreach (var property in typeDefinition.Properties)
 			{
@@ -61,58 +61,40 @@ namespace ICSharpCode.ILSpy.MiBlazor.Generator
 
 		private void GenerateCodeField(IField field, GeneratorContext ctx, CsWriter output)
 		{
-			ctx.Decompile(field, output);
+			//ctx.Decompile(field, output);
 
-/*			output.WriteStart(output.ToAccessibility(field.Accessibility));
-			output.Write(" ");
-			output.Write(output.GetType(field.ReturnType));
-			output.Write(" ");
-			output.Write(field.Name);
-			output.WriteEnd(";");
-*/		}
+			/*			output.WriteStart(output.ToAccessibility(field.Accessibility));
+						output.Write(" ");
+						output.Write(output.GetType(field.ReturnType));
+						output.Write(" ");
+						output.Write(field.Name);
+						output.WriteEnd(";");
+			*/
+		}
 
 		private void GenerateCodeProperty(IProperty property, GeneratorContext ctx, CsWriter output)
 		{
 			output.Usings.Add("Microsoft.AspNetCore.Components");
 			output.WriteLine("[Parameter]");
 
-			ctx.Decompile(property, output);
 
-			/*			output.WriteStart(output.ToAccessibility(property.Accessibility));
-						output.Write(" ");
-						output.Write(output.GetType(property.ReturnType));
-						output.Write(" ");
-						output.Write(property.Name);
-						output.Write(" {");
-						if (property.CanGet)
-						{
-							if (property.Getter != null)
-							{
-								output.Open("get");
-								ctx.Decompile(property.Getter, output);
-								output.Close("");
-							}
-							else
-							{
-								output.Write(" get;");
-							}
-						}
-						if (property.CanSet)
-						{
-							if (property.Setter != null)
-							{
-								output.Open("set");
-								ctx.Decompile(property.Setter, output);
-								output.Close("");
-							}
-							else
-							{
-								output.Write(" set;");
-							}
-						}
-						output.WriteEnd(" }");
-						output.WriteLine();
-			*/
+			output.WriteStart(output.ToAccessibility(property.Accessibility));
+			output.Write(" ");
+			output.Write(output.GetType(property.ReturnType));
+			output.Write(" ");
+			output.Write(property.Name);
+			output.Write(" {");
+			if (property.CanGet)
+			{
+				output.Write(" get;");
+			}
+			if (property.CanSet)
+			{
+				output.Write(" set;");
+			}
+			output.WriteEnd(" }");
+			output.WriteLine();
+
 		}
 
 		private void GenerateCodeMethods(ITypeDefinition typeDefinition, GeneratorContext ctx)

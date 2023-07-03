@@ -21,12 +21,12 @@ using ICSharpCode.ILSpy.Properties;
 
 namespace ICSharpCode.ILSpy.MiBlazor;
 
-[ExportContextMenuEntry(Header = "Export MiBlazor Controls", Category = nameof(Resources.Shell))]
-internal sealed class ExportMiblazor : ExportMiblazorBase
+[ExportContextMenuEntry(Header = "Export MiBlazor Skeleton ", Category = nameof(Resources.Shell))]
+internal sealed class ExportSkeletonMiblazor : ExportMiblazorBase
 {
-	public ExportMiblazor()
+	public ExportSkeletonMiblazor()
 	{
-		Generators.Add(new ControlGenerator());
-		Generators.Add(new TypeFullGenerator());
+		Generators.Add(new ControlSkeletonGenerator());
 	}
+
 }
