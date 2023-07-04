@@ -22,9 +22,9 @@ using ICSharpCode.ILSpy.Properties;
 namespace ICSharpCode.ILSpy.MiBlazor;
 
 [ExportContextMenuEntry(Header = "Export MiBlazor Controls", Category = nameof(Resources.Shell))]
-internal sealed class ExportMiblazor : ExportMiblazorBase
+internal sealed class ExportControllerMiblazor : ExportMiblazorBase
 {
-	public ExportMiblazor()
+	public ExportControllerMiblazor()
 	{
 		Generators.Add(new ControlGenerator());
 		Generators.Add(new TypeFullGenerator());

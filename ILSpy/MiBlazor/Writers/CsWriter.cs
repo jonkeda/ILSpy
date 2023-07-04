@@ -4,8 +4,6 @@ using System.Text;
 
 using ICSharpCode.Decompiler.TypeSystem;
 
-using Accessibility = ICSharpCode.Decompiler.TypeSystem.Accessibility;
-
 namespace ICSharpCode.ILSpy.MiBlazor.Writers
 {
 	public class CsWriter : CodeWriter
